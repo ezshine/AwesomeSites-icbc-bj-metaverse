@@ -1,0 +1,785 @@
+nav: &nav
+  is: nav
+  nav: 
+    dropdown: 
+      global: 
+        预见 · 小宇宙:
+          # - key: nav.dump
+            # name: Dump
+          - key: nav.center
+            name: 广场
+            icon_label: '传送'
+            icon: "ri-road-map-line"
+  on: 
+    # nav.dump: 
+      # dump: true
+    nav.center: 
+      teleport: 
+        scene: main
+        position: [0, 15, 0]
+
+
+poster-pin: &poster-pin 
+  scale: 30
+  fade: [20, 50]
+  scaleClamp: [0.2, 1]
+  expand_distance: 10
+  scaleBoost: 0.8
+
+poster-el: &poster-el 
+  active: true
+  is: "pin-product-button"
+  theme: "#ff2303"
+  classes: glow
+  text: "查看海报" 
+  icon: ri-gallery-line
+
+
+teleport-pin: &teleport-pin 
+  scale: 30
+  fade: [80, 130]
+  scaleClamp: [0.2, 1]
+  expand_distance: 700
+  scaleBoost: 1.2
+
+teleport-pin-element: &teleport-pin-element
+  active: true
+  classes: glow
+  is: "pin-product-button"
+
+teleport_home: &teleport_home
+  is: pin
+  pos: { x: -30.55139104760329, y: 1.5, z: -10.555498665103464 }
+  pin: 
+    <<: *teleport-pin
+    scaleBoost: 1
+    fade: [20, 40]
+    scaleClamp: [0.2, 1]
+    expand_distance: 10
+    element: 
+      <<: *teleport-pin-element
+      text: "回广场" 
+      theme: "#ffbbaab3"
+      icon: ri-home-7-line
+      classes: ""
+  on: 
+    click:
+      teleport: 
+        scene: main
+
+teleport_home_fx:  &teleport_home_fx
+  is: fx
+  pos: { x: -30.55139104760329, y: -0.609687864780426, z: -10.555498665103464 }
+  portal: true
+
+groups:
+  - ecny
+  - cards
+  - vip
+  - loan
+
+vip: 
+  - type: ICBC_Scene_VIP
+    key: indoor-meet
+    model: {{ROOT}}assets/packs.lfs/icbc/models/meeting.glb
+    env: {{ROOT}}assets/maps.lfs/env/aristea_wreck_1k.hdr
+    background: {{ROOT}}assets/maps.lfs/env/sky-blur.hdr
+    bgm: {{ROOT}}assets/packs.lfs/icbc/sounds/bgm_mute.mp3
+    fog: '#97c2e4'
+    scale: 1.2
+    fogNear: 50
+    fogFar: 250
+    default_spawn_data: {
+      position: [0.2899719957237917, 0.10226249694824227, -8.129536023170035],
+      rot: -3.108686585196349,
+      polar: 1.4747683216922947
+    }
+    # log_parts: true
+    
+    # bgm: {{ROOT}}assets/sounds.lfs/bgm_main.mp3
+    # physics: 
+      # disabled: true
+    uint_id: -1
+    elements: 
+      - *nav
+
+      - is: fps_settings
+        fov: 50
+        dy: 1.0
+        speed: 0.8
+        distance: 6
+
+      - <<: *teleport_home
+        pos: { 
+          x: -7.197539001626114,
+          y: 1.387250329554081,
+          z: -9.11162012271488
+        }
+      - <<: *teleport_home_fx
+        pos: { 
+          x: -7.197539001626114,
+          y: 0.087250329554081,
+          z: -9.11162012271488
+        }
+
+  # - type: ICBC_Scene_Generic
+  #   uint_id: 888
+  #   key: hidden_cake
+  #   model: {{ROOT}}assets/packs.lfs/icbc/sp/test.glb
+  #   env: {{ROOT}}assets/maps.lfs/env/aristea_wreck_1k.hdr
+  #   background: {{ROOT}}assets/maps.lfs/env/sky-blur.hdr
+  #   bgm: {{ROOT}}assets/packs.lfs/icbc/sounds/bgm_mute.mp3
+  #   fog: '#97c2e4'
+  #   scale: 1.2
+  #   fogNear: 50
+  #   fogFar: 250
+  #   default_spawn_data: {
+  #     position: [0.2899719957237917, 0.10226249694824227, -8.129536023170035],
+  #     rot: -3.108686585196349,
+  #     polar: 1.4747683216922947
+  #   }
+  #   # log_parts: true
+  #   # bgm: {{ROOT}}assets/sounds.lfs/bgm_main.mp3
+  #   # physics: 
+  #     # disabled: true
+
+loan: 
+  - type: ICBC_Scene_Loan
+    key: indoor-e
+    uint_id: 19
+    model: {{ROOT}}assets/packs.lfs/icbc/models/e.glb
+    env: {{ROOT}}assets/maps.lfs/env/adams_place_bridge_2k.hdr
+    background: {{ROOT}}assets/maps.lfs/env/blur.hdr
+    fog: '#97c2e4'
+    scale: 1.2
+    fogNear: 50
+    fogFar: 250
+    bgm: {{ROOT}}assets/sounds.lfs/bgm_wires.mp3
+    # physics: 
+      # disabled: true
+    elements: 
+      - *nav
+
+      - is: handler
+        key: question
+        ai: true
+        # chat: 
+        #   - speaker: 融e借讲解员
+        #     bg: true
+        #     key: main
+        #     text: |
+        #       <div>你好！👋<br><b>欢迎来了解融e借～</b></div>
+        #     required: true
+        #     has_next: true
+        #     actions: []
+
+      - <<: *teleport_home
+        pos: { 
+          x: 18,
+          y: 1.19856470823287953,
+          z: 0.08619713039802342
+        }
+      - <<: *teleport_home_fx
+        pos: { 
+          x: 19,
+          y: 0.29856470823287953,
+          z: 0.08619713039802342
+        }
+      - is: fps_settings
+        fov: 50
+        dy: 1.0
+        speed: 0.8
+        distance: 6
+
+      - is: auto_rotate_all
+        speed: 0.005
+
+      - is: batch_pins
+        items:
+          e_poster_企业担保贷: 立减金
+          e_poster_e企快贷: 立减金
+          e_poster_数字供应链: 分期卡
+          e_poster_跨境贷: 账单分期
+          e_poster_个人住房贷: 家装分期
+          e_poster_375blue: 融e借
+          e_poster_375read: 随用金
+          e_poster_car: 汽车分期产品
+        # pos: {x: 0, y: -1, z: 0}
+        # pin: 
+        #   <<: *poster-pin
+        #   element: 
+        #     <<: *poster-el 
+        #     text: "企业担保贷"
+        #     icon: ri-price-tag-3-line
+        # on: 
+        #   click: 
+        #     modal:
+        #       is: modal
+        #       theme: minimal
+        #       badge: 'ri-information-line'
+        #       content: |
+        #         <img src="{{ROOT}}assets/packs.lfs/icbc/assets/借贷站/e_poster_企业担保贷.png" class="fullpage"/>
+        #       passive_close: true
+        #       center: false
+
+
+  # 对话
+  - type: NPCRenderer
+    attach: indoor-e
+    scene: indoor-e
+    p_transform:
+      position: 
+        x: 13.988164191773015
+        y: 0.19856470823287972
+        z: 6.026132105043622
+    # model_offset: [0, 0.5, 0]
+    model: {{ROOT}}assets/packs.lfs/icbc/models/NPC.glb
+    filter: 
+      - girlNPC
+      - GIRLhair1
+      - shoes01
+      - pants
+    bodyParts: [0, 1, 2, 3]
+    range: 20
+    colors: [-1, -1, 0x131313, -1]
+    pin: 
+      element: {}
+    action: 
+      chat:
+        - speaker: 融e借讲解员
+          bg: true
+          key: main
+          text: |
+            <div>你好！👋<br><b>欢迎来了解融e借～</b></div>
+          required: true
+          has_next: true
+          actions:
+            - key: question.action
+              icon: ri-question-answer-line
+              text: 与我直接对话
+              theme: "#ff3300"
+              fg: "white"
+              ref: question
+            - key: 什么是融e借？.next
+              text: 什么是融e借？
+            - key: 怎么办理贷款？.next
+              text: 怎么办理贷款？
+            - key: 贷款能干什么？.next
+              text: 贷款能干什么？
+
+        - key: 什么是融e借？
+          speaker: 融e借讲解员
+          bg: true
+          text: |
+            <div>融e借，也叫工行个人信用贷款，是工行向符合特定条件的借款人发放的，用于个人合法合规用途的无抵押、无担保的人民币贷款。</div>
+          required: false
+          has_next: true
+          next: main
+
+        - key: 怎么办理贷款？
+          speaker: 融e借讲解员
+          bg: true
+          text: |
+            <div><b>*线上渠道</b>：客户可通过工行手机银行、网上银行、工银e生活App等渠道，7×24小时自助办理。以手机银行为例，登录中国工商银行APP→“贷款”→“个人信用贷款”→“马上借” <br>*<b>线下渠道</b>：客户可前往我行营业网点通过柜面和智能终端机办理。 </div>
+          required: false
+          has_next: true
+          next: main
+
+        - key: 贷款能干什么？
+          speaker: 融e借讲解员
+          bg: true
+          text: |
+            <div>借款人应严格按照贷款用途使用贷款资金，贷款款项不得以任何形式流入证券市场、期货市场或用于股本权益性投资、房地产项目开发，不得用于购房，不得用于购买理财产品，不得用于投资账户交易类产品，不得用于购买债券，不得用于借贷，不得用于国家法律法规明确规定不得经营的项目。</div>
+          required: false
+          has_next: true
+          next: main
+
+cards: 
+
+  - type: ICBC_Scene_Cards
+    key: indoor-cards
+    uint_id: 20
+    model: {{ROOT}}assets/packs.lfs/icbc/models/cards.glb
+    env: {{ROOT}}assets/maps.lfs/env/aristea_wreck_1k.hdr
+    background: {{ROOT}}assets/maps.lfs/env/sky-blur.hdr
+    fog: '#97c2e4'
+    fogNear: 50
+    fogFar: 250
+    # log_parts: true
+    scale: 1.2
+    # log_parts: true
+    
+    bgm: {{ROOT}}assets/packs.lfs/icbc/sounds/bgm_piano.mp3
+    # physics: 
+      # disabled: true
+    elements: 
+      - is: welcome
+        sign: 
+          main: 
+            text: 欢迎 - <b>卡片小屋</b>
+            icon: ri-map-pin-range-line
+        # on: 
+        #   main: 
+        #     ref: chat-dialog-1
+      - *nav
+
+      - <<: *teleport_home
+        pos: { 
+          x: 4.052162260746688,
+          y: 1.061809456269511044,
+          z: -24.410670089111502
+        }
+      - <<: *teleport_home_fx
+        pos: { 
+          x: 4.052162260746688,
+          y: 0.361809456269511044,
+          z: -24.410670089111502
+        }
+
+      - is: fps_settings
+        fov: 70
+        dy: 1.3
+        speed: 0.8
+        distance: 6
+
+      - is: auto_rotate_all
+        filter: card_title_transprante_autorotate
+        speed: -0.001
+
+      - is: cards
+        all: 
+          牡丹超惠卡: 
+            url: "http://m.icbc.com.cn/ICBC/%e4%bf%a1%e7%94%a8%e5%8d%a1/%e7%bd%91%e4%b8%8a%e5%8a%9e%e5%8d%a1/bkchk.htm"
+          北京冬奥会主题信用卡: 
+            url: "http://m.icbc.com.cn/ICBC/%e4%bf%a1%e7%94%a8%e5%8d%a1/%e7%bd%91%e4%b8%8a%e5%8a%9e%e5%8d%a1/bkdak.htm"
+          北京环球度假区联名卡: 
+            url: "http://m.icbc.com.cn/ICBC/%e4%bf%a1%e7%94%a8%e5%8d%a1/%e7%bd%91%e4%b8%8a%e5%8a%9e%e5%8d%a1/bkhqdj.htm"
+          无界白金数字卡: 
+            url: "http://m.icbc.com.cn/ICBC/%e4%bf%a1%e7%94%a8%e5%8d%a1/%e7%bd%91%e4%b8%8a%e5%8a%9e%e5%8d%a1/bkwjk.htm"
+          工银生肖信用卡: 
+            url: "https://elife.icbc.com.cn/OFSTCARDWEB/dist/#/apply/index/null/14/null/null/IN00046000000000000/HZDW000038467/null/null"
+          奋斗•中国很赞信用卡: 
+            url: "http://m.icbc.com.cn/ICBC/%E4%BF%A1%E7%94%A8%E5%8D%A1/%E7%BD%91%E4%B8%8A%E5%8A%9E%E5%8D%A1/bkzghz.htm"
+          宇宙星座信用卡: 
+            url: "http://m.icbc.com.cn/ICBC/%e4%bf%a1%e7%94%a8%e5%8d%a1/%e7%bd%91%e4%b8%8a%e5%8a%9e%e5%8d%a1/bkxz.htm"
+          工银微信信用卡: 
+            url: "http://m.icbc.com.cn/ICBC/%e4%bf%a1%e7%94%a8%e5%8d%a1/%e7%bd%91%e4%b8%8a%e5%8a%9e%e5%8d%a1/bkwxk.htm"
+          工银“兴农通”信用卡: 
+            url: "https://elife.icbc.com.cn/OFSTCARDWEB/dist/#/apply/index/109SJPTWX00GYWX00000000000/null/null/null/EW0004600000000GZ01/HZDW000217968/null/null"
+          工银爱车Plus信用卡: 
+            url: "http://m.icbc.com.cn/ICBC/%e4%bf%a1%e7%94%a8%e5%8d%a1/%e7%bd%91%e4%b8%8a%e5%8a%9e%e5%8d%a1/bkhqp.htm"
+          工银环球旅行Plus信用卡: 
+            url: "http://m.icbc.com.cn/ICBC/%e4%bf%a1%e7%94%a8%e5%8d%a1/%e7%bd%91%e4%b8%8a%e5%8a%9e%e5%8d%a1/bkhqp.htm"
+          工银香格里拉信用卡: 
+            url: "https://elife.icbc.com.cn/OFSTCARDWEB/dist/#/apply/index/null/14/null/null/INEW00046000000SL01/HZDW000002461/null/null"
+          工银长隆联名信用卡: 
+            url: "http://m.icbc.com.cn/ICBC/%e4%bf%a1%e7%94%a8%e5%8d%a1/%e7%bd%91%e4%b8%8a%e5%8a%9e%e5%8d%a1/bkcl.htm"
+          工银留学信用卡: 
+            url: "http://m.icbc.com.cn/ICBC/%e4%bf%a1%e7%94%a8%e5%8d%a1/%e7%bd%91%e4%b8%8a%e5%8a%9e%e5%8d%a1/bklx.htm"
+          工银银联故宫信用卡: 
+            url: "http://m.icbc.com.cn/ICBC/%e4%bf%a1%e7%94%a8%e5%8d%a1/%e7%bd%91%e4%b8%8a%e5%8a%9e%e5%8d%a1/bkgg.htm"
+
+      # - is: auto_rotate_all
+      #   filter: card_goods
+      #   speed: 0.0006
+
+  - type: ICBC_Card
+    key: 工银银联故宫信用卡
+    attach: indoor-cards
+    theme: 0x998877
+    hook: card_15工银银联故宫信用卡_autorotate
+    pin: 
+      html: "工银银联故宫信用卡"
+
+  # 对话
+  - type: NPCRenderer
+    attach: indoor-cards
+    scene: indoor-cards
+    p_transform:
+      position: 
+        x: -0.8725797174931419
+        y: 0.06181010334088066
+        z: -9.115445912454959
+    # model_offset: [0, 0.5, 0]
+    model: {{ROOT}}assets/packs.lfs/icbc/models/NPC.glb
+    filter: 
+      - girlNPC
+      - GIRLhair1
+      - shoes01
+      - pants
+    bodyParts: [0, 1, 2, 3]
+    range: 50
+    colors: [-1, -1, 0x131313, -1]
+    pin: 
+      element: {}
+    action: 
+      chat:
+        - speaker: 信用卡讲解员
+          bg: true
+          key: main
+          text: |
+            <div>你好！👋<br><b>欢迎来到卡片小屋～</b><br>我准备了一些常见的问题<br>如有需要，我将为您解答～</div>
+          required: true
+          has_next: true
+          actions:
+            - key: 超惠卡是优惠费率？.next
+              text: 超惠卡是优惠费率？
+            - key: 需要多久才能审批开户？.next
+              text: 需要多久才能审批开户？
+            - key: 首次办卡的客户也能线上启用吗？.next
+              text: 首次办卡的客户也能线上启用吗？
+            - key: 办卡客户年龄是否有规定呢？.next
+              text: 办卡客户年龄是否有规定呢？
+            - key: “工行新客礼 缤纷卡世界”活动参与条件是什么？.next
+              text: “工行新客礼 缤纷卡世界”活动参与条件是什么？
+            - key: 有什么卡？权益是什么？.next
+              text: 有什么卡？权益是什么？
+
+        - key: 超惠卡是优惠费率？
+          speaker: 信用卡讲解员
+          bg: true
+          text: |
+            <div>现在e分期12期费率2.52%，超惠卡优惠费率是原价的6折。</div>
+          required: false
+          has_next: true
+          next: main
+
+        - key: 需要多久才能审批开户？
+          speaker: 信用卡讲解员
+          bg: true
+          text: |
+            <div>目标客户理论上来说，多数能够实时秒开。目前看到转人工环节的基本上是非目标客户，按照正常审批策略处理。总行审批中心已成立超惠审批专家组，到了审批端一般当日处理完成，如果进入分行调查队列，请分行尽快处理。</div>
+          required: false
+          has_next: true
+          next: main
+
+        - key: 首次办卡的客户也能线上启用吗？
+          speaker: 信用卡讲解员
+          bg: true
+          text: |
+            <div>首次办卡客户如已完成面签（通过纸质表、工银e服务渠道申办；或通过面签码渠道申办并完成“面签受理”），是可以通过线上渠道启用的。如未完成面签，则需至网点自助终端面签启用。</div>
+          required: false
+          has_next: true
+          next: main
+
+        - key: 办卡客户年龄是否有规定呢？
+          speaker: 信用卡讲解员
+          bg: true
+          text: |
+            <div>目前新版授信政策已经放开年龄上限，主卡下限18周岁。</div>
+          required: false
+          has_next: true
+          next: main
+
+        - key: “工行新客礼 缤纷卡世界”活动参与条件是什么？
+          speaker: 信用卡讲解员
+          bg: true
+          text: |
+            <div>本次活动仅限活动期内成功办理工银信用卡并在三个月内任意消费一笔的北京地区新客户参与。活动期间，满足条件的客户，均有机会通过工银e生活参与兑换，礼品数量有限，先到先得。</div>
+          required: false
+          has_next: true
+          next: main
+
+        - key: 有什么卡？权益是什么？
+          speaker: 信用卡讲解员
+          bg: true
+          text: |
+            <div>我行卡片种类很多，有环球度假区联名卡、故宫卡，还有无界卡，您可通过工银e生活“卡片推荐”或“工行官网—信用卡-卡片世界”等渠道了解卡种及相关权益。<br>温馨提示：服务代表根据以上热点问题解答仍不能有效解决客户问题的，可登记工单，工单中需准确记录客户姓名、身份证号、手机号、银行卡号等相关信息，便于活动举办部室发商户协查。</div>
+          required: false
+          has_next: true
+          next: main
+
+ecny:
+
+  - type: ICBC_Scene_Generic
+    key: indoor-ecny
+    uint_id: 21
+    model: {{ROOT}}assets/packs.lfs/icbc/models/ecny.glb
+    env: {{ROOT}}assets/maps.lfs/env/aristea_wreck_1k.hdr
+    background: {{ROOT}}assets/maps.lfs/env/sky-blur.hdr
+    bgm: {{ROOT}}assets/packs.lfs/icbc/sounds/bgm_waves.mp3
+    fog: '#97c2e4'
+    scale: 1.2
+    fogNear: 50
+    fogFar: 250
+    default_spawn_data: {
+      position: [0.2899719957237917, 0.10226249694824227, -8.129536023170035],
+      rot: -3.108686585196349,
+      polar: 1.4747683216922947
+    }
+    # log_parts: true
+    
+    # physics: 
+      # disabled: true
+    elements:       
+      - *nav
+      - <<: *teleport_home
+        pos: { 
+          x: 12.502044257271985, y: 0.12271499633789071, z: 6.721530801782524
+        }
+      - <<: *teleport_home_fx
+        pos: { 
+          x: 12.502044257271985, y: 0.12271499633789071, z: 6.721530801782524
+        }
+
+
+      
+      - is: auto_rotate_all
+
+      - is: fps_settings
+        fov: 50
+        dy: 1.0
+        speed: 0.8
+        distance: 6
+
+      # 海报 1
+      - is: pin
+        el: ecny_coin_autorotate
+        pos: { x: 0, y: 3, z: 0  }
+        pin: 
+          scale: 30
+          fade: [80, 130]
+          scaleClamp: [0.2, 0.8]
+          expand_distance: 9.5
+          scaleBoost: 1.2
+          element:
+            icon: 'ri-money-cny-circle-fill'
+            active: true
+            classes: glow
+            theme: "#ffbb00"
+            text: 数字人民币的支付优势
+            is: "pin-product-button"
+        on: 
+          click: 
+            # chat: 
+            #   - speaker: 数字人民币
+            #     bg: true
+            #     text: |
+            #       <div>
+            #       <b>【央行负债与法偿性】</b><br>
+            #       数字人民币是数字形式的法定货币，是人民银行对社会公众的负债，以国家信用为基础。任何单位和个人在具备接收条件的情况下不得拒收。<br>
+            #       <b>【交易安全性】</b><br>
+            #       数字人民币具备不可重复花费，不可非法复制伪造，交易不可篡改及抗抵赖等特性。<br>
+            #       <b>【账户松耦合】</b><br>
+            #       用户在不绑定银行账户的情况下，可通过钱包持有和使用数字人民币。<br>
+            #       <b>【丰富现金形态】</b><br>
+            #       数字人民币是数字化形态的现金，与纸币和硬币等价，兑换无手续费。<br>
+            #       </div>
+            modal:
+              is: modal
+              badge: 'ri-money-cny-circle-fill'
+              content: |
+                <img src="{{ROOT}}assets/packs.lfs/icbc/images/ecny_coin_autorotate.png" class="fullpage" style="pointer-events: all; max-width: 420px;"/>
+              passive_close: true
+              center: false
+              theme: minimal
+
+      # 海报 2
+      - is: pin
+        el: ecny_coin2_autorotate
+        pos: { x: 0, y: 0, z: 0  }
+        pin: 
+          scale: 30
+          fade: [80, 130]
+          scaleClamp: [0.2, 0.8]
+          expand_distance: 9.5
+          scaleBoost: 1.2
+          element:
+            icon: 'ri-money-cny-circle-fill'
+            active: true
+            classes: glow
+            theme: "#ffbb00"
+            text: 数字人民币使用方便
+            is: "pin-product-button"
+        on: 
+          click: 
+            # chat: 
+            #   - speaker: 数字人民币
+            #     bg: true
+            #     text: |
+            #       <div>
+            #       <b>【央行负债与法偿性】</b><br>
+            #       数字人民币是数字形式的法定货币，是人民银行对社会公众的负债，以国家信用为基础。任何单位和个人在具备接收条件的情况下不得拒收。<br>
+            #       <b>【交易安全性】</b><br>
+            #       数字人民币具备不可重复花费，不可非法复制伪造，交易不可篡改及抗抵赖等特性。<br>
+            #       <b>【账户松耦合】</b><br>
+            #       用户在不绑定银行账户的情况下，可通过钱包持有和使用数字人民币。<br>
+            #       <b>【丰富现金形态】</b><br>
+            #       数字人民币是数字化形态的现金，与纸币和硬币等价，兑换无手续费。<br>
+            #       </div>
+            modal:
+              is: modal
+              badge: 'ri-money-cny-circle-fill'
+              content: |
+                <img src="{{ROOT}}assets/packs.lfs/icbc/images/ecny_coin2_autorotate.png" class="fullpage" style="pointer-events: all; max-width: 420px;"/>
+              passive_close: true
+              center: false
+              theme: minimal
+
+      # 海报 3
+      - is: pin
+        el: ecny_phone
+        pos: { x: 0, y: 0, z: 0  }
+        pin: 
+          scale: 30
+          fade: [80, 130]
+          scaleClamp: [0.2, 0.8]
+          expand_distance: 9.5
+          scaleBoost: 1.2
+          element:
+            icon: 'ri-money-cny-circle-fill'
+            active: true
+            classes: glow
+            theme: "#ffbb00"
+            text: 数字人民币使用很简单
+            is: "pin-product-button"
+        on: 
+          click: 
+            # chat: 
+            #   - speaker: 数字人民币
+            #     bg: true
+            #     text: |
+            #       <div>
+            #       <b>【央行负债与法偿性】</b><br>
+            #       数字人民币是数字形式的法定货币，是人民银行对社会公众的负债，以国家信用为基础。任何单位和个人在具备接收条件的情况下不得拒收。<br>
+            #       <b>【交易安全性】</b><br>
+            #       数字人民币具备不可重复花费，不可非法复制伪造，交易不可篡改及抗抵赖等特性。<br>
+            #       <b>【账户松耦合】</b><br>
+            #       用户在不绑定银行账户的情况下，可通过钱包持有和使用数字人民币。<br>
+            #       <b>【丰富现金形态】</b><br>
+            #       数字人民币是数字化形态的现金，与纸币和硬币等价，兑换无手续费。<br>
+            #       </div>
+            modal:
+              is: modal
+              badge: 'ri-money-cny-circle-fill'
+              content: |
+                <img src="{{ROOT}}assets/packs.lfs/icbc/images/ecny_phone.png" class="fullpage" style="pointer-events: all; max-width: 420px;"/>
+              passive_close: true
+              center: false
+              theme: minimal
+
+  # 对话
+  - type: NPCRenderer
+    attach: indoor-ecny
+    scene: indoor-ecny
+    p_transform:
+      position: 
+        x: 5.944813610786249
+        y: 0.12271499633789061
+        z: 15.030685583374533
+    # model_offset: [0, 0.5, 0]
+    model: {{ROOT}}assets/packs.lfs/icbc/models/NPC.glb
+    filter: 
+      - boyNPC
+      - BOYhair1
+      - shoes01
+      - pants
+    bodyParts: [0, 1, 2, 3]
+    range: 50
+    colors: [-1, -1, 0x131313, -1]
+    pin: 
+      element: {}
+    action: 
+      chat:
+        - speaker: E-CNY讲解员
+          bg: true
+          key: main
+          text: |
+            <div>你好！👋<br><b>欢迎来了解数字人民币～</b><br>我准备了一些常见的问题<br>如有需要，我将为您解答～</div>
+          required: true
+          has_next: true
+          actions:
+            - key: 不在北京的用户能否使用数字人民币.next
+              text: 不在北京的用户能否使用数字人民币
+            - key: 个人数币钱包是否可绑定他行账户？.next
+              text: 个人数币钱包是否可绑定他行账户？
+            - key: 没有银行账户或只有除工、农、中、建、交、邮储、招商等银行之外银行卡的用户，可否使用数字人民币.next
+              text: 没有银行账户或只有除工、农、中、建、交、邮储、招商等银行之外银行卡的用户，可否使用数字人民币
+            - key: 数字钱包是否支持预付.next
+              text: 数字钱包是否支持预付（例如酒店预付押金）？
+            - key: 数字钱包手机丢失或者被盗？.next
+              text: 手机丢失或者被盗怎么办？
+            - key: 什么是碰一碰支付？.next
+              text: 什么是碰一碰支付？
+
+        - key: 不在北京的用户能否使用数字人民币
+          speaker: E-CNY讲解员
+          bg: true
+          text: |
+            <div>手机GPS定位不在试点城市的，可以下载数字人民币APP，但无法开立个人钱包</div>
+          required: false
+          has_next: true
+          next: main
+
+        - key: 个人数币钱包是否可绑定他行账户？
+          speaker: E-CNY讲解员
+          bg: true
+          text: |
+            <div>数字人民币app，工行钱包可以绑定指定的34家银行的借记卡，详情可以在升级二类钱包中，查看“支持的银行”。</div>
+          required: false
+          has_next: true
+          next: main
+
+        - key: 没有银行账户或只有除工、农、中、建、交、邮储、招商等银行之外银行卡的用户，可否使用数字人民币
+          speaker: E-CNY讲解员
+          bg: true
+          text: |
+            <div>可以，目前数字人民币支持绑定34家国内银行卡，同时如客户拥有大陆实名手机号，也可通过手机号开立四类钱包进行使用。</div>
+          required: false
+          has_next: true
+          next: main
+
+        - key: 数字钱包是否支持预付
+          speaker: E-CNY讲解员
+          bg: true
+          text: |
+            <div>暂不支持。</div>
+          required: false
+          has_next: true
+          next: main
+
+        - key: 数字钱包手机丢失或者被盗？
+          speaker: E-CNY讲解员
+          bg: true
+          text: |
+            <div>（1）客户已经无法收取来自该手机号验证码，请第一时间拨打手机运营商（电信、移动、联通等）客服热线进行手机号挂失，根据客服指示操作，如还需前往运营商实体网点办理，请携带好本人有效证件及时前往办理。<br>（2）目前暂时不支持更换注册手机号，请注意您注册手机号的安全性。</div>
+          required: false
+          has_next: true
+          next: main
+
+        - key: 什么是碰一碰支付？
+          speaker: E-CNY讲解员
+          bg: true
+          text: |
+            <div>碰一碰支付是一种标签支付技术，通过在商户受理标贴中内嵌NFC标签存储商户信息，<br>打开碰一碰支付界面触碰标签即可支付。目前仅支持安卓手机。</div>
+          required: false
+          has_next: true
+          next: main
+
+  - type: VideoBoard
+    attach: indoor-ecny
+    scene: indoor-ecny
+    # createMesh: true
+    withMaterial: 材质.042
+    src: {{ROOT}}assets/packs.lfs/icbc/videos.local/ecny.mp4
+    debug: 1
+    muted: true
+    fade: 10
+    iOSMute: true
+    p_transform:
+      position: 
+        x: -8.42269887234771
+        y: 0.12271499633789068
+        z: -4.731250402962634
+    repeat: 
+      x: 1
+      y: -1
+    hud: 
+      theme: "#3bbfff"
+      main: 
+        text: 大屏
+      operator: 
+        minor: {
+          text: 视频
+        }
+        text: 数字人民币介绍

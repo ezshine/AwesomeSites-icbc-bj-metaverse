@@ -1,0 +1,15 @@
+groups: 
+  - env
+
+env: 
+  - type: Shared
+    key: env
+    root: "./"
+    cfg: "packs.lfs/icbc/boot.yaml"
+    realm: icbc-bj
+    store: 
+      player:  #synced
+        filter: [0, 2, 8, 24, 30]
+        colors: [-1, 0x444444, 0xffee33, 0xff3300, 0x030303]
+        name: 用户
+        emote: {}

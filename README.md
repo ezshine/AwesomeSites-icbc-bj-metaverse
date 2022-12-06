@@ -1,1 +1,3 @@
-# https-github.com-ezshine-AwesomeSites-icbc-bj-metaverse
+# AwesomeSites-icbc-bj-metaverse
+
+> collected in [AwesomeSites](https://github.com/ezshine/AwesomeSites)

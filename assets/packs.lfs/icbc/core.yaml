@@ -1,0 +1,218 @@
+
+groups:
+  - core
+  - ui_provider
+  - modules
+  - player
+
+core: 
+  - type: c_dom_node
+    key: dom_main
+    html: <div class='main'></div>
+    appendTo: body
+
+  # - type: c_perf_stats
+  #   key: stats 
+  #   attach: dom_main
+
+  - type: LoopMan
+    key: loopman
+  
+  - type: Renderer
+    key: renderer
+    dbg_ray: false
+    attach: dom_main
+
+  - type: SoundProvider
+    key: sounds
+    
+  - type: c_input
+    key: inputs
+    attach: renderer
+
+  - type: CameraMgr
+    key: camera_mgr
+
+  - type: World
+    key: world
+    debug: 1
+    attach: renderer
+
+  - type: Network
+    key: Network
+    server_list:
+      - url: wss://meta-a0.emerge.ltd:9555/
+      - url: wss://meta-a1.emerge.ltd:9555/
+      # - url: wss://meta.emerge.ltd:9555/
+
+ui_provider: 
+  - type: UI_Core
+    key: UI_Base
+    attach: dom_main
+
+  - type: UI_Dialog_Provider
+    key: UI_Dialog_Provider
+
+  - type: UI_Pin_Provider
+    key: UI_Pin_Provider
+
+  - type: UI_HUD_Provider
+    key: UI_HUD_Provider
+
+modules:
+  # - type: PreviewCameraView
+  #   key: preview
+  #   show: 1
+
+  # - type: ObserverMode
+  #   key: observerMode
+
+  # - type: PlayerObserverRenderer
+  #   key: observer
+
+  - type: FPSMode
+    key: fpsMode
+
+  - type: ManipulatorMode
+    key: manipulatorMode
+
+player: 
+
+  - type: ICBC_PlayerNameRenderer
+    key: PlayerNames
+    attach: renderer
+    allowed_texts: ["测试", "用户"]
+
+  - type: PlayerModelRenderer
+    key: player_body
+    model: {{ROOT}}assets/packs.lfs/icbc/models/player.glb
+    P_ICBC_PlayerModel: {}
+    # no_filter: 1
+    filter: 
+      - body
+      - BOYhair1  
+      - BOYhair2  
+      - BOYhair3  
+      - BOYhair4  
+      - BOYhair5  
+      - BOYhair6  
+      - cloth01  
+      - cloth02  
+      - cloth03  
+      - cloth04  
+      - cloth05  
+      - cloth06 #仅限女 使用后不得使用穿裤子
+      - GIRLhair1  
+      - GIRLhair2  
+      - GIRLhair3  
+      - GIRLhair4  
+      - GIRLhair5  
+      - GIRLhair6  
+      - glass01
+      - glass02
+      - hat01
+      - hat02
+      - pants01  
+      - pants02  
+      - pants03  
+      - pants04  
+      - pants05 #仅限女 
+      - shoes01  
+      - shoes02  
+      - shoes03  
+      - shoes04
+
+  - type: PlayerCrowd
+    key: PlayerCrowd
+    player_name_alloc: [1, 63]
+    model: {{ROOT}}assets/packs.lfs/icbc/models/player-low.glb
+    filter: 
+      - body
+      - BOYhair1  
+      - BOYhair2  
+      - BOYhair3  
+      - BOYhair4  
+      - BOYhair5  
+      - BOYhair6  
+      - cloth01  
+      - cloth02  
+      - cloth03  
+      - cloth04  
+      - cloth05  
+      - cloth06 #仅限女 使用后不得使用穿裤子
+      - GIRLhair1  
+      - GIRLhair2  
+      - GIRLhair3  
+      - GIRLhair4  
+      - GIRLhair5  
+      - GIRLhair6  
+      - glass01
+      - glass02
+      - hat01
+      - hat02
+      - pants01  
+      - pants02  
+      - pants03  
+      - pants04  
+      - pants05 #仅限女 
+      - shoes01  
+      - shoes02  
+      - shoes03  
+      - shoes04
+
+  - type: ICBC_PlayerMetaEditor
+    filter: 
+      - body
+      - BOYhair1  
+      - BOYhair2  
+      - BOYhair3  
+      - BOYhair4  
+      - BOYhair5  
+      - BOYhair6  
+      - cloth01  
+      - cloth02  
+      - cloth03  
+      - cloth04  
+      - cloth05  
+      - cloth06 #仅限女 使用后不得使用穿裤子
+      - GIRLhair1  
+      - GIRLhair2  
+      - GIRLhair3  
+      - GIRLhair4  
+      - GIRLhair5  
+      - GIRLhair6  
+      - glass01
+      - glass02
+      - hat01
+      - hat02
+      - pants01  
+      - pants02  
+      - pants03  
+      - pants04  
+      - pants05 #仅限女 
+      - shoes01  
+      - shoes02  
+      - shoes03  
+      - shoes04
+
+  - type: UI_Element
+    key: UI_Brand
+    is: brand-icbc
+    data: 
+      mark: false
+
+  - type: ICBC_UI
+    key: ICBC_UI
+    gamepad_axis: 5
+    gamepad_scenes: 
+      - key: indoor-e
+        name: 借贷站
+      - key: indoor-meet
+        name: 虚拟沙龙
+      - key: main
+        name: 开放广场
+      - key: indoor-cards
+        name: 卡片小屋
+      - key: indoor-ecny
+        name: E-CNY大厦
+

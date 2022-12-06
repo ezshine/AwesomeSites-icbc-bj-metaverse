@@ -1,0 +1,5 @@
+refs: 
+  - packs.lfs/icbc/data.yaml
+  - packs.lfs/icbc/core.yaml
+  - packs.lfs/icbc/scene-indoor.yaml
+  - packs.lfs/icbc/scene-main.yaml

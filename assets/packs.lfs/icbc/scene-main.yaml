@@ -1,0 +1,826 @@
+positions: 
+  pos_cards: &pos_cards {x: -30.55139104760329, y: -0.609687864780426, z: -10.555498665103464}
+  pos_video: &pos_video {x: -26.287430620861993, y: -0.6299032902124823, z: 9.289176177934493}
+  pos_street: &pos_street {x: 56.94737408847425, y: 10.7889179587364197, z: -19.12374219892743}
+  
+  # 卡片小屋    x: -30.55139104760329, y: -0.609687864780426, z: -10.555498665103464
+  # 广场视频    x: -26.287430620861993, y: -0.6299032902124823, z: 9.289176177934493
+  # 借贷站      x: 7.389404106357479, y: -0.6299031843033238, z: -25.473715647512094
+  # 借贷站2楼   x: 9.887934327029017, y: 5.278809547424316, z: -34.90642450999915
+  # CNY:      x: -9.745722708774979, y: -0.2473816706354039, z: 21.862020449987575
+  # NFT:      x: 30.66798039955949, y: -0.3300792305981246, z: 16.300224005499178
+  # Salon:    x: 31.353845045470443, y: -0.4780619826028997, z: -23.79087293889809
+  # 工商银行入口  x: 171.40409984403064, y: -0.6417551364522793, z: -36.341864909424345
+  # ----
+  # 指示牌 x: -6.756866979711204, y: -0.3300791169159463, z: 10.616303294121483
+  # 黄色楼 x: 70.50959995251436, y: -0.6298514963035708, z: -34.88980166562696
+  # 摩天轮 x: 96.39261981041025, y: -0.4802028063359354, z: -32.54489553051486
+  # 矮楼 x: 62.41049575378694, y: -0.6358709895809149, z: -5.804067017483144
+  # 矮楼群 x: 102.94703127813717, y: -0.6702338401345299, z: -8.138542784967107
+  # 矮楼群2 x: 166.581189337858, y: -0.7886785234288936, z: -16.227102934834047
+  # Ballon Station: x: 29.153913754045725, y: 5.278809547424316, z: -37.38029516363664
+  #   -A      x: 30.865321955430613, y: 5.530888524767814, z: -31.734047118363897
+  #   -B      x: 35.50990442800878, y: 5.532195688860165, z: -26.738618028729064
+  #   -C      x: 39.99061557012371, y: 5.5316716552098475, z: -31.248495667455302
+  #   -D      x: 35.05505126931921, y: 5.532294338776932, z: -35.6132507555991
+  #   -CENTER x: 35.566338629232185, y: 5.889338325841895, z: -31.439694900622538
+  # 合影点  x: 22.407938386288883, y: -0.5195938759376699, z: 14.67914594162925
+  # NPC靠近 x: -1.585002496207654, y: -0.33007974798569095, z: 15.259650323580365
+  # NPC合影 x: 25.659633566891, y: -0.6299034800326073, z: 8.093384895628851
+  # NPC摩天轮 x: 86.96029885636634, y: -0.6312730978894521, z: -30.933050721487195
+  # NPC后街 x: 128.01000046099404, y: -0.6365513522406939, z: -39.326496631379385
+
+  # 海报 1 x: 189.31322126901898 y: -0.6631342837528892 z: -32.834218720658974
+  # 海报 2 x: 118.462263247123 y: -0.6702595911396005 z: -33.9850169917549
+  # 海报 3 x: 114.82465682423701 y: -0.6438934310639245 z: -8.037038996785853
+  # 海报 4 x: 140.60352137837754 y: -0.6410115361213684 z: -39.51406194655675
+
+
+# gltfpack -i main.glb -vp 16 -vt 12 -vn 12 -mi -mm -c -o main-pack.glb
+# gltfpack -i main.glb -vp 16 -vt 12 -vn 14 -mi -mm -c -o main-pack.glb
+# gltf-transform uastc main-pack.glb main-ktx.glb --zstd 19 --level 4 --rdo 0.25  --vertex-layout=separate --power-of-two --verbose
+
+
+# final op gltfpack -i main.glb -vp 16 -vt 12 -vn 14 -mi -mm -c -o main-pack.glb
+# op gltf-transform draco main-ktx.glb draco.glb
+
+# meshopt -> ktx -> draco
+
+teleport-pin: &teleport-pin 
+  scale: 30
+  fade: [80, 130]
+  scaleClamp: [0.2, 1]
+  expand_distance: 700
+  scaleBoost: 1.2
+teleport-pin-element: &teleport-pin-element
+  active: true
+  classes: glow
+  is: "pin-product-button"
+
+poster-pin: &poster-pin 
+  scale: 30
+  fade: [80, 130]
+  scaleClamp: [0.2, 1]
+  expand_distance: 20
+  scaleBoost: 1.2
+  element: 
+    active: true
+    is: "pin-product-button"
+    theme: "#33bbff"
+    classes: glow
+    text: "查看海报" 
+    icon: ri-gallery-line
+
+groups:
+  - main
+  - main-parts
+
+main: 
+  - type: ICBC_World_Prod
+    key: main
+    uint_id: 9
+    # model: {{ROOT}}assets/test.lfs/out-world.glb
+    model: {{ROOT}}assets/packs.lfs/icbc/models/main/out.glb
+    bvh_model: {{ROOT}}assets/packs.lfs/icbc/models/main/out-physics.glb
+    env: {{ROOT}}assets/maps.lfs/env/aristea_wreck_1k.hdr
+    background: {{ROOT}}assets/maps.lfs/env/sky-blur.hdr
+    fog: '#97c2e4'
+    scale: 0.5
+    fogNear: 50
+    fogFar: 250
+    bgm: {{ROOT}}assets/packs.lfs/icbc/sounds/bgm_main.mp3
+    # physics: 
+      # disabled: true
+    
+    elements:
+      
+      # 海报 1
+      - is: pin
+        pos: { x: 189.31322126901898, y: 1.6631342837528892, z: -32.834218720658974  }
+        pin: 
+          <<: *poster-pin
+        on: 
+          click: 
+            modal:
+              is: modal
+              badge: 'ri-information-line'
+              content: |
+                <img src="{{ROOT}}assets/packs.lfs/icbc/images/3.png" style="pointer-events: all; width:100%; margin: 0; max-height: none"/>
+              passive_close: true
+              center: false
+
+      # 海报 2
+      - is: pin
+        pos: { x: 118.462263247123, y: 1.6702595911396005, z: -33.9850169917549  }
+        pin: 
+          <<: *poster-pin
+        on: 
+          click: 
+            modal:
+              is: modal
+              badge: 'ri-information-line'
+              content: |
+                <img src="{{ROOT}}assets/packs.lfs/icbc/images/1.png" style="pointer-events: all; width:100%; margin: 0; max-height: none"/>
+              passive_close: true
+              center: false
+
+      # 海报 3
+      - is: pin
+        pos: { x: 114.82465682423701, y: 1.6438934310639245, z: -8.037038996785853  }
+        pin: 
+          <<: *poster-pin
+        on: 
+          click: 
+            modal:
+              is: modal
+              badge: 'ri-information-line'
+              content: |
+                <img src="{{ROOT}}assets/packs.lfs/icbc/images/2.png" style="pointer-events: all; width:100%; margin: 0; max-height: none"/>
+              passive_close: true
+              center: false
+
+      # 海报 4
+      - is: pin
+        pos: { x: 140.60352137837754, y: 0.6410115361213684, z: -39.51406194655675  }
+        pin: 
+          <<: *poster-pin
+        on: 
+          click: 
+            modal:
+              is: modal
+              badge: 'ri-information-line'
+              content: |
+                <img src="{{ROOT}}assets/packs.lfs/icbc/images/4.png" style="pointer-events: all; width:100%; margin: 0; max-height: none"/>
+              passive_close: true
+              center: false
+
+      # 合影点
+      - is: pin
+        pos: { x: 22.407938386288883, y: 2.2195938759376699, z: 14.67914594162925  }
+        pin: 
+          <<: *teleport-pin
+          scaleBoost: 0.8
+          scaleClamp: [0.1, 1]
+          fade: [30, 70]
+          expand_distance: 30
+          element: 
+            <<: *teleport-pin-element
+            text: "服贸会·合影墙" 
+            icon: ri-camera-3-line
+            classes: ""
+            theme: "#bf33bf"
+            
+        on: 
+          click:
+            chat:
+              - speaker: "服贸会·合影装置"
+                title: 合影墙 
+                bg: true
+                text: |
+                  <div>到访<br><b>在北京服贸会·工行展区</b></div>
+                  <div>用拍照装置，生成属于你的专属海报</div>
+                  <div>你的照片也会进入元宇宙这里哦！</div>
+                required: true
+                has_next: false
+                actions:
+                  - key: how.next
+                    text: 如何参加？
+                  - key: ok
+                    text: 好，谢谢
+                    dismiss: true
+
+              - speaker: "服贸会·合影装置"
+                title: 合影墙 
+                bg: true
+                key: how
+                text: |
+                  <div>工商银行北京服贸会展区</div>
+                  <div>位于【北京服贸会展馆内】</div>
+                  <div></div>
+                required: false
+                has_next: false
+                actions:
+                  - key: go.action
+                    text: 地图导航
+                    target: https://j.map.baidu.com/9e/LDf
+                  - key: ok
+                    text: 知道了
+                    dismiss: true
+
+
+      # SPAWN
+      - is: fx
+        pos: { x: 0, y: -1, z: 0 }
+        portal: true
+      
+      - is: fps_settings
+        fov: 65
+        speed: 1.05
+
+      - is: welcome
+        sign: 
+          main: 
+            text: 欢迎 - <b>中心广场</b>
+            icon: ri-map-pin-range-line
+        on: {}
+
+      - is: nav
+        nav: 
+          dropdown: 
+            global: 
+              广场:
+                # - key: nav.dump
+                #   name: Dump
+                - key: nav.world.main
+                  name: 广场中心
+                  icon_label: ''
+                  icon: "ri-star-line"
+                - key: nav.world.main.street
+                  name: 广场 / 消费街
+                  icon_label: ''
+                  icon: "ri-star-line"
+              预见 · 小宇宙:
+                - key: nav.world.main
+                  name: 中心广场
+                  icon_label: '传送'
+                  icon: "ri-road-map-line"
+                - key: nav.world.ecny
+                  name: E·CNY大厦
+                  icon_label: '传送'
+                  icon: "ri-road-map-line"
+                - key: nav.world.cards
+                  name: 卡片小屋
+                  icon_label: '传送'
+                  icon: "ri-road-map-line"
+                - key: nav.world.e
+                  name: 借贷站
+                  icon_label: '传送'
+                  icon: "ri-road-map-line"
+                - key: nav.world.meet
+                  name: 虚拟沙龙
+                  icon_label: '传送'
+                  icon: "ri-road-map-line"
+        on: 
+          # nav.dump: 
+          #   dump: true
+          nav.world.main: 
+            teleport: 
+              scene: main
+              position: [0, 10, 0]
+          nav.world.ecny: 
+            teleport: 
+              scene: indoor-ecny
+          nav.world.cards: 
+            teleport: 
+              scene: indoor-cards
+          nav.world.e: 
+            teleport: 
+              scene: indoor-e
+          nav.world.meet: 
+            teleport: 
+              scene: indoor-meet
+
+          nav.world.main.street: 
+            teleport: 
+              scene: main
+              position: [56.94737408847425, 10.7889179587364197, -19.12374219892743]
+
+      # 卡片小屋
+      - is: pin
+        pos: { x: -30.55139104760329, y: 1.5, z: -10.555498665103464 }
+        pin: 
+          <<: *teleport-pin
+          element: 
+            <<: *teleport-pin-element
+            text: "前往 卡片小屋" 
+        on: 
+          click:
+            teleport: 
+              scene: indoor-cards
+
+      - is: fx
+        pos: { x: -30.55139104760329, y: -0.609687864780426, z: -10.555498665103464 }
+        portal: true
+        
+      # ECNY
+      - is: pin
+        pos: { x: -9.745722708774979, y: 1.5, z: 21.862020449987575 }
+        pin: 
+          <<: *teleport-pin
+          element: 
+            <<: *teleport-pin-element
+            text: "前往 E-CNY大厦"
+        on: 
+          click:
+            teleport: 
+              scene: indoor-ecny
+
+      - is: fx
+        pos: { x: -9.745722708774979, y: -0.2473816706354039, z: 21.862020449987575 }
+        portal: true
+        
+      # 借贷站
+      - is: pin
+        pos: { x: 7.389404106357479, y: 1.6299031843033238, z: -25.473715647512094 }
+        pin: 
+          <<: *teleport-pin
+          element: 
+            <<: *teleport-pin-element
+            text: "前往 借贷站"
+        on: 
+          click:
+            teleport: 
+              scene: indoor-e
+
+      - is: fx
+        pos: { x: 7.389404106357479, y: -0.6299031843033238, z: -25.473715647512094 }
+        portal: true
+        
+      # 私人客厅
+      - is: pin
+        pos: { x: 31.353845045470443, y: 1.4780619826028997, z: -23.79087293889809 }
+        pin: 
+          <<: *teleport-pin
+          element: 
+            <<: *teleport-pin-element
+            text: "前往 虚拟沙龙"
+        on: 
+          click:
+            teleport: 
+              scene: indoor-meet
+
+      - is: fx
+        pos: { x: 31.353845045470443, y: -0.4780619826028997, z: -23.79087293889809 }
+        portal: true
+        
+      # NFT
+
+      # - is: pin
+      #   pos: { x: 32.701053114516725, y: 3.6281546282276366, z: -3.572074889757185 }
+      #   pin: 
+      #     <<: *teleport-pin
+      #     scaleBoost: 0.8
+      #     scaleClamp: [0.1, 1.2]
+      #     fade: [30, 70]
+      #     expand_distance: 30
+      #     element: 
+      #       <<: *teleport-pin-element
+      #       text: "NFT 展馆（建设中）"
+      #       classes: ""
+      #       theme: "#bf33bf"
+      #   on: 
+      #     click:
+      #       chat:
+      #         - speaker: "工行 预见小宇宙"
+      #           title: NFT 数字展馆建设中
+      #           bg: true
+      #           text: |
+      #             <div>你好！👋<br><b>数字展馆还在建设中</b></div>
+      #             <div>开放后即可进入参观啦</div>
+      #           required: false
+      #           has_next: false
+      #           actions:
+      #             - key: nothing
+      #               text: 好～
+
+      # - is: fx
+      #   pos: { x: 32.701053114516725, y: -0.6281546282276366, z: -3.572074889757185 }
+      #   portal: true
+        
+
+      # ICBC
+      # - is: pin
+      #   pos: { x: 171.40409984403064, y: 1.6417551364522793, z: -36.341864909424345 }
+      #   pin: 
+      #     <<: *teleport-pin
+      #     scaleBoost: 1
+      #     scaleClamp: [0.1, 1.2]
+      #     fade: [30, 70]
+      #     expand_distance: 40
+      #     element: 
+      #       <<: *teleport-pin-element
+      #       text: "ICBC 线上空间（建设中）"
+      #       classes: ""
+      #       theme: "#ff0100"
+            
+      #   on: 
+      #     click:
+      #       chat:
+      #         - speaker: "工行 预见小宇宙"
+      #           bg: true
+      #           text: |
+      #             <div>你好！👋<br><b>ICBC 线上空间还在建设中</b></div>
+      #             <div>开放后即可进入体验啦</div>
+      #           required: false
+      #           has_next: false
+      #           actions:
+      #             - key: nothing
+      #               text: 好～
+
+      # - is: fx
+      #   pos: {  x: 171.40409984403064, y: -0.6417551364522793, z: -36.341864909424345 }
+      #   portal: true
+        
+
+      # 导航路标
+      - is: pin
+        pos: { x: -6.32866979711204, y: 3, z: 12.516303294121483 }
+        pin: 
+          <<: *teleport-pin
+          scaleBoost: 0.8
+          scaleClamp: [0.1, 1.2]
+          fade: [30, 60]
+          expand_distance: 30
+          element: 
+            <<: *teleport-pin-element
+            text: "路标"
+            classes: ""
+            theme: "#003333aa"
+            icon: ri-road-map-line
+        on: 
+          click:
+            chat:
+              - speaker: "工行 预见小宇宙"
+                title: 中心广场导航
+                bg: true
+                text: |
+                  <div>Hi！👋<br><b>我可以帮你快速导航，请问你想去哪里？</b></div>
+                required: false
+                has_next: false
+                actions:
+                  - key: video.action
+                    text: 广场大屏下
+                    teleport: 
+                      scene: main
+                      pos: *pos_video
+
+                  - key: street.action
+                    text: 探索消费街
+                    teleport: 
+                      scene: main
+                      pos: *pos_street
+                      
+                  - key: thanks
+                    text: 关闭
+
+      # - is: fx
+      #   pos: { x: 32.701053114516725, y: -0.6281546282276366, z: -3.572074889757185 }
+      #   portal: true
+        
+
+      # 气球
+      - is: pin
+        pos: {x: 35.566338629232185, y: 13.889338325841895, z: -31.439694900622538}
+        pin: 
+          <<: *teleport-pin
+          scaleBoost: 1.5
+          scaleClamp: [0.1, 1.2]
+          fade: [70, 120]
+          expand_distance: 50
+          element: 
+            <<: *teleport-pin-element
+            text: "气球充气站"
+            classes: ""
+            theme: "#5544ff"
+            icon: ri-bubble-chart-line
+        on: 
+          click:
+            chat:
+              - speaker: "工行 预见小宇宙"
+                title: 🎈大家一起充气球🎈
+                bg: true
+                text: |
+                  <div><br><b>气球充气站</b></div>
+                  <div>站在充气按钮上，</div>
+                  <div>一起给气球充气<br>在元宇宙释放气球～</div>
+                required: false
+                has_next: false
+                actions:
+                  - key: teleport.action
+                    text: 传送到附近
+                    bg: "#5544ff"
+                    theme: "#fff"
+                    teleport: 
+                      scene: main
+                      pos: { x: 29.153913754045725, y: 5.278809547424316, z: -37.38029516363664 }
+
+                  - key: thanks
+                    text: 关闭
+
+  #   -A      x: 30.865321955430613, y: 5.530888524767814, z: -31.734047118363897
+  #   -B      x: 35.50990442800878, y: 5.532195688860165, z: -26.738618028729064
+  #   -C      x: 39.99061557012371, y: 5.5316716552098475, z: -31.248495667455302
+  #   -D      x: 35.05505126931921, y: 5.532294338776932, z: -35.6132507555991
+
+      # 气球
+      - is: ballon_spot
+        pos: { x: 30.83530424988917, y: 5.52593994140625, z: -31.591179994047216 }
+      
+      - is: ballon_spot
+        pos: { x: 35.50990442800878, y: 5.532195688860165, z: -26.738618028729064 }
+        
+      - is: ballon_spot
+        pos: { x: 39.99061557012371, y: 5.5316716552098475, z: -31.248495667455302 }
+        
+      - is: ballon_spot
+        pos: { x: 35.05505126931921, y: 5.532294338776932, z: -35.6132507555991 }
+        
+        
+        # on: 
+        #   click:
+        #     chat:
+        #       - speaker: "工行 预见小宇宙"
+        #         title: 🎈大家一起充气球🎈
+        #         bg: true
+        #         text: |
+        #           <div><br><b>气球充气站</b></div>
+        #           <div>站在充气按钮上，</div>
+        #           <div>一起给气球充气<br>在元宇宙释放气球～</div>
+        #         required: false
+        #         has_next: false
+        #         actions:
+        #           - key: teleport.action
+        #             text: 传送到附近
+        #             bg: "#5544ff"
+        #             theme: "#fff"
+        #             teleport: 
+        #               scene: main
+        #               pos: { x: 29.153913754045725, y: 5.278809547424316, z: -37.38029516363664 }
+
+        #           - key: thanks
+        #             text: 关闭
+
+      
+  - type: ICBC_Photoshoot
+    attach: main
+    scene: main
+
+  - type: ICBC_BallonGame
+    attach: main
+    scene: main
+    model: {{ROOT}}assets/packs.lfs/icbc/models/balloon.glb
+    stands: 
+      - { x: 30.83530424988917, y: 5.52593994140625, z: -31.591179994047216 }
+      - { x: 35.50990442800878, y: 5.532195688860165, z: -26.738618028729064 }
+      - { x: 39.99061557012371, y: 5.5316716552098475, z: -31.248495667455302 }
+      - { x: 35.05505126931921, y: 5.532294338776932, z: -35.6132507555991 }
+          
+
+main-parts:
+
+  - type: VideoBoard
+    attach: main
+    scene: main
+    # createMesh: true
+    withMaterial: Square_Screen01_Video
+    src: {{ROOT}}assets/packs.lfs/icbc/videos.local/station.mp4
+    debug: 1
+    muted: true
+    fade: 13
+    iOSMute: true
+    p_transform: 
+      position:
+        x: -26
+        z: 9.5
+    repeat: 
+      x: 1
+      y: -1
+
+
+  # 广场对话
+  - type: NPCRenderer
+    attach: main
+    scene: main
+    model: {{ROOT}}assets/packs.lfs/icbc/models/NPC.glb
+    filter: 
+      - boyNPC
+      - BOYhair1
+      - shoes01
+      - pants
+    bodyParts: [0, 1, 2, 3]
+    colors: [-1, -1, 0x131313, -1]
+    debug: 1
+    
+    p_transform:
+      position: {x: -1.585002496207654, y: -0.331, z: 15.259650323580365}
+    pin: 
+      element: {}
+    action: 
+      chat:
+        - speaker: 小宇宙工作人员
+          bg: true
+          text: |
+            <div>你好！👋<br><b>欢迎来到工行预见小宇宙，您是第一次来这里吗？ </b></div>
+          required: true
+          has_next: true
+          actions:
+            - key: 2.next
+              text: 是的，请告诉我这是什么地方。
+            - key: quit
+              text: 我对这里已经很了解了。
+              dismiss: true
+        - key: "2"
+          speaker: 小宇宙工作人员
+          bg: true
+          text: |
+            <div><b>预见小宇宙</b>是工行应用场景和<br>元宇宙技术的创新性结合，<br>您可以在这里随意浏览，<br>还可以进入大楼内发现更多工行业务。</div>
+          required: false
+          has_next: true
+        - key: quiz
+          speaker: 小宇宙工作人员
+          bg: true
+          text: |
+            <div>您想了解哪个地方呢？</div>
+          required: true
+          has_next: true
+          actions:
+            - key: 中心广场.next
+              text: 中心广场
+            - key: 卡片小屋.next
+              text: 卡片小屋
+            - key: E-CNY.next
+              text: E-CNY
+            - key: 借贷站.next
+              text: 借贷站
+            - key: 虚拟沙龙.next
+              text: 虚拟沙龙
+            - key: 消费街.next
+              text: 消费街
+            - key: 不用了，我随便逛逛
+              text: 不用了，我随便逛逛
+              dismiss: true
+        - key: 中心广场
+          bg: true
+          title: 中心广场
+          has_next: true
+          next: quiz
+          text: |
+            <div>您现在所在的位置就是中心广场，您可以从这里去到其他任意地方。<br><br>旁边的照片墙展示的是在服贸会现场打卡的游客照片，<br>二楼还隐藏有踩气球的小游戏，<br>快去寻找吧~ 👋</div>
+
+        - key: 卡片小屋
+          bg: true
+          has_next: true
+          next: quiz
+          title: 卡片小屋
+          text: |
+            <div>在卡片小屋里您可以看到我们工行各式各样的信用卡，<br>点击就可以直接进行办理哦~ </div>
+
+        - key: E-CNY
+          bg: true
+          has_next: true
+          next: quiz
+          title: E-CNY
+          text: |
+            <div>E-CNY里介绍了<b>数字人民币</b>的下载、<br>使用方式以及各种应用场景，<br>欢迎您了解使用~</div>
+
+        - key: 借贷站
+          bg: true
+          has_next: true
+          next: quiz
+          title: 借贷站
+          text: |
+            <div>借贷站里展示了融e借等工行借贷产品，<br>您还可以在里面的服务台进行相关业务咨询。</div>
+
+        - key: 虚拟沙龙
+          bg: true
+          has_next: true
+          next: quiz
+          title: 虚拟沙龙
+          text: |
+            <div>在虚拟沙龙里您可以了解到牡丹超惠卡、<br>数币钱包和数字藏品的相关业务内容。<br>在展厅里还有真实的虚拟沙龙等待您探索。</div>
+
+        - key: 消费街
+          bg: true
+          has_next: true
+          next: quiz
+          title: 消费街
+          text: |
+            <div>消费街里展示了工行与其他商户合作的优惠活动，<br>偷偷告诉你，<br>那里是个薅羊毛的好地方哦~</div>
+
+
+  # 广场合影
+  - type: NPCRenderer
+    attach: main
+    scene: main
+    model: {{ROOT}}assets/packs.lfs/icbc/models/NPC.glb
+    filter: 
+      - girlNPC
+      - GIRLhair1
+      - shoes01
+      - pants
+    bodyParts: [0, 1, 2, 3]
+    colors: [-1, -1, 0x131313, -1]
+    debug: 1
+    
+    p_transform:
+      position: {x: 25.87445277491522, y: -0.6281377077102661, z: 7.078041137244385}
+    pin: 
+      element: {}
+    action: 
+      chat:
+        - speaker: 合影区工作人员
+          bg: true
+          text: |
+            <div>Hi！👋<br><b>欢迎到服贸会工行北京展台，体验拍照机呀～</b></div>
+          required: true
+
+
+  # # ICBC附近
+  # - type: NPCRenderer
+  #   attach: main
+  #   scene: main
+  #   model: {{ROOT}}assets/packs.lfs/icbc/models/NPC.glb
+  #   filter: 
+  #     - girlNPC
+  #     - GIRLhair1
+  #     - shoes01
+  #     - pants
+  #   bodyParts: [0, 1, 2, 3]
+  #   colors: [-1, -1, 0x131313, -1]
+  #   debug: 1
+    
+  #   p_transform:
+  #     position: { x: 128.01000046099404, y: -0.6365513522406939, z: -39.326496631379385 }
+  #   pin: 
+  #     element: {}
+  #   action: 
+  #     chat:
+  #       - speaker: 小宇宙工作人员
+  #         bg: true
+  #         text: |
+  #           <div>贵宾您好 👋<br><b>前方就是工行体验空间了<br>目前还在建设中，欢迎之后来坐坐～</b></div>
+  #         required: true
+
+
+  # 摩天轮下
+  - type: NPCRenderer
+    attach: main
+    scene: main
+    model: {{ROOT}}assets/packs.lfs/icbc/models/NPC.glb
+    filter: 
+      - boyNPC
+      - BOYhair1
+      - shoes01
+      - pants
+    bodyParts: [0, 1, 2, 3]
+    colors: [-1, -1, 0x131313, -1]
+    debug: 1
+    
+    p_transform:
+      position: { x: 86.96029885636634, y: -0.6312730978894521, z: -30.933050721487195 }
+    pin: 
+      element: {
+        icon: "ri-gift-line"
+      }
+    action: 
+      chat:
+        - speaker: 小宇宙工作人员
+          title: 🎁 恭喜你发现我啦
+          bg: true
+          text: |
+            <div>在🌍地球上的你，现在在北京服贸会吗？<br>送你一张海报！<br>快截图找我在现场的同事，有奖品兑换哦～</div>
+          required: true
+          actions:
+            - key: open.action
+              text: 领取海报
+              modal:
+                is: modal
+                confetti: true
+                badge: 'ri-gift-line'
+                content: |
+                  <img src="{{ROOT}}assets/packs.lfs/icbc/images/gift.jpeg" style="pointer-events: all; width:100%; margin: 0;"/>
+                passive_close: true
+                center: false
+
+
+  # Ballon
+  - type: NPCRenderer
+    attach: main
+    scene: main
+    model: {{ROOT}}assets/packs.lfs/icbc/models/NPC.glb
+    filter: 
+      - boyNPC
+      - BOYhair1
+      - shoes01
+      - pants
+    bodyParts: [0, 1, 2, 3]
+    colors: [-1, -1, 0x131313, -1]
+    debug: 1
+    
+    p_transform:
+      position: {
+        x: 22.36286385091304, y: 5.2781877517700195, z: -31.445060620173955
+       }
+    pin: 
+      element: {}
+    action: 
+      chat:
+        - speaker: 小宇宙工作人员
+          title: 🎈 一起给气球打气
+          bg: true
+          text: |
+            <div>踏上前面的踏板区域，一起释放小宇宙气球～</div>
+          required: true
+
+
+# x: 128.01000046099404, y: -0.6365513522406939, z: -39.326496631379385
